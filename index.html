@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Víctor Villa — Desarrollo web elegante</title>
+<meta name="description" content="Víctor Villa, desarrollador web. Sitios, catálogos digitales y sistemas administrables construidos con React, Django y PostgreSQL.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D1210;
+    --panel:#131A17;
+    --panel-2:#1A2320;
+    --border:#2A332D;
+    --text:#ECE8DE;
+    --text-dim:#93A199;
+    --accent:#5FA98A;
+    --accent-soft:#5FA98A26;
+    --gold:#C9A15A;
+    --serif:'Fraunces', serif;
+    --sans:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+  section{padding:120px 0;border-bottom:1px solid var(--border);}
+  section:last-of-type{border-bottom:none;}
+  h1,h2,h3{font-family:var(--serif);font-weight:450;margin:0;}
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:13px;
+    color:var(--gold);
+    letter-spacing:0.02em;
+    margin-bottom:14px;
+    display:block;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:13px 24px;
+    border-radius:2px;
+    font-size:15px;
+    font-weight:500;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:background .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .btn-primary{background:var(--accent);color:#0D1210;}
+  .btn-primary:hover{background:#74BC9C;}
+  .btn-ghost{border-color:var(--border);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+  /* Header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,18,16,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{
+    max-width:1120px;margin:0 auto;padding:0 28px;
+    height:76px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{
+    width:38px;height:38px;border-radius:50%;
+    background:var(--panel-2);border:1px solid var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:14px;color:var(--accent);
+  }
+  .brand-name{font-family:var(--serif);font-size:17px;letter-spacing:.01em;}
+  .nav-links{display:flex;align-items:center;gap:34px;font-size:14.5px;color:var(--text-dim);}
+  .nav-links a:hover{color:var(--text);}
+  .nav-cta{display:flex;}
+  .nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;}
+
+  /* Hero */
+  .hero{padding-top:110px;padding-bottom:100px;}
+  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:70px;align-items:center;}
+  .hero h1{font-size:52px;line-height:1.12;letter-spacing:-0.01em;max-width:620px;}
+  .hero h1 em{font-style:italic;color:var(--accent);}
+  .hero p{color:var(--text-dim);font-size:17px;max-width:480px;margin:24px 0 34px;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .stack-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:44px;}
+  .chip{
+    font-size:12.5px;color:var(--text-dim);
+    border:1px solid var(--border);padding:6px 12px;border-radius:2px;
+  }
+
+  .code-card{
+    background:var(--panel);border:1px solid var(--border);
+    padding:26px 24px;font-family:'SF Mono', 'Fira Code', monospace;
+    font-size:13.5px;color:var(--text-dim);border-radius:2px;
+  }
+  .code-card .line{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border);}
+  .code-card .line:last-child{border-bottom:none;}
+  .code-card .ok{color:var(--accent);}
+  .code-card .path{color:var(--gold);}
+  .code-card .prompt{color:var(--text);margin-bottom:14px;}
+
+  /* Section heads */
+  .section-head{max-width:640px;margin-bottom:60px;}
+  .section-head h2{font-size:32px;line-height:1.25;}
+  .section-head p{color:var(--text-dim);margin-top:16px;font-size:16px;}
+
+  /* Servicios */
+  .services{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--border);}
+  .service{
+    padding:40px 38px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+  }
+  .service:nth-child(2n){border-right:none;}
+  .service:nth-last-child(-n+2){border-bottom:none;}
+  .service .tag{color:var(--gold);font-size:12.5px;margin-bottom:16px;display:block;}
+  .service h3{font-size:20px;margin-bottom:10px;}
+  .service p{color:var(--text-dim);font-size:14.5px;margin:0 0 16px;}
+  .service .tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .service .tags span{font-size:12px;color:var(--text-dim);border:1px solid var(--border);padding:4px 9px;}
+
+  /* Proyecto destacado */
+  .project-card{
+    display:grid;grid-template-columns:1fr 1fr;gap:0;
+    border:1px solid var(--border);
+  }
+  .project-visual{
+    background:linear-gradient(155deg,#182620,#0D1210 70%);
+    min-height:340px;position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .project-visual svg{width:78%;}
+  .project-info{padding:44px 42px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--border);}
+  .status-pill{
+    align-self:flex-start;font-size:12px;color:var(--accent);
+    border:1px solid var(--accent);padding:4px 11px;margin-bottom:18px;
+  }
+  .project-info h3{font-size:26px;margin-bottom:12px;}
+  .project-info p{color:var(--text-dim);font-size:15px;margin-bottom:20px;}
+  .project-info .tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .project-info .tags span{font-size:12px;color:var(--text-dim);border:1px solid var(--border);padding:4px 9px;}
+
+  /* Stack */
+  .stack-grid{display:flex;flex-wrap:wrap;gap:14px;}
+  .stack-item{
+    display:flex;align-items:center;gap:10px;
+    border:1px solid var(--border);padding:12px 16px;
+    font-size:14px;color:var(--text-dim);
+  }
+  .stack-item img{width:18px;height:18px;}
+
+  /* Proceso */
+  .process{border-left:1px solid var(--border);margin-left:6px;}
+  .process-step{position:relative;padding:0 0 52px 40px;}
+  .process-step:last-child{padding-bottom:0;}
+  .process-step::before{
+    content:attr(data-n);
+    position:absolute;left:-21px;top:0;
+    width:40px;height:40px;border-radius:50%;
+    background:var(--bg);border:1px solid var(--accent);color:var(--accent);
+    font-family:var(--serif);font-size:14px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .process-step h3{font-size:18px;margin-bottom:8px;}
+  .process-step p{color:var(--text-dim);font-size:14.5px;max-width:520px;}
+
+  /* Sobre mí */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .about-badge{color:var(--text-dim);font-size:14px;margin-bottom:6px;}
+  .about-grid h2{font-size:32px;line-height:1.3;margin-bottom:20px;}
+  .about-grid p{color:var(--text-dim);font-size:15.5px;margin-bottom:16px;}
+  .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+  .about-stats div{background:var(--panel);padding:24px;}
+  .about-stats .label{font-size:12.5px;color:var(--text-dim);display:block;margin-bottom:8px;}
+  .about-stats .value{font-family:var(--serif);font-size:19px;}
+
+  /* CTA + Formulario */
+  .cta-head{text-align:left;max-width:640px;margin-bottom:50px;}
+  .cta-head h2{font-size:34px;}
+  .cta-head p{color:var(--text-dim);margin-top:16px;font-size:16px;}
+  form{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .field{display:flex;flex-direction:column;gap:8px;}
+  .field.full{grid-column:1 / -1;}
+  label{font-size:13px;color:var(--text-dim);}
+  input,select,textarea{
+    background:var(--panel);border:1px solid var(--border);color:var(--text);
+    padding:13px 14px;font-family:var(--sans);font-size:14.5px;border-radius:2px;
+  }
+  input:focus,select:focus,textarea:focus{outline:1px solid var(--accent);border-color:var(--accent);}
+  textarea{resize:vertical;min-height:110px;}
+  form .submit-row{grid-column:1/-1;display:flex;align-items:center;gap:16px;margin-top:4px;}
+  .form-note{color:var(--text-dim);font-size:12.5px;}
+
+  footer{padding:60px 0 34px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:50px;}
+  .footer-grid h4{font-size:13px;color:var(--text-dim);margin:0 0 16px;font-weight:500;}
+  .footer-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:14.5px;}
+  .footer-grid .about-text{color:var(--text-dim);font-size:14.5px;max-width:280px;margin-top:14px;}
+  .footer-bottom{
+    border-top:1px solid var(--border);padding-top:24px;
+    display:flex;justify-content:space-between;color:var(--text-dim);font-size:13px;flex-wrap:wrap;gap:10px;
+  }
+
+  @media (max-width:860px){
+    .nav-links,.nav-cta{display:none;}
+    .nav-toggle{display:block;}
+    .hero-grid,.about-grid{grid-template-columns:1fr;}
+    .hero h1{font-size:38px;}
+    .services{grid-template-columns:1fr;}
+    .service{border-right:none !important;}
+    .service:last-child{border-bottom:none;}
+    .project-card{grid-template-columns:1fr;}
+    .project-info{border-left:none;border-top:1px solid var(--border);}
+    form{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+    section{padding:76px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="#top" class="brand">
+      <span class="brand-mark">VV</span>
+      <span class="brand-name">Víctor Villa</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#servicios">Servicios</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#sobre-mi">Sobre mí</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#cotizar" class="btn btn-primary">Cotiza tu proyecto</a>
+    </div>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Desarrollo web · React · Django · PostgreSQL</span>
+        <h1>Desarrollo web <em>elegante</em> para negocios que quieren verse tan bien como funcionan.</h1>
+        <p>Soy Víctor Villa. Diseño y construyo sitios, catálogos digitales y sistemas administrables con arquitectura moderna y atención al detalle.</p>
+        <div class="hero-actions">
+          <a href="#cotizar" class="btn btn-primary">Cotiza tu proyecto</a>
+          <a href="#proyectos" class="btn btn-ghost">Ver proyectos</a>
+        </div>
+        <div class="stack-chips">
+          <span class="chip">React</span>
+          <span class="chip">Django</span>
+          <span class="chip">PostgreSQL</span>
+          <span class="chip">Tailwind</span>
+        </div>
+      </div>
+      <div class="code-card">
+        <div class="prompt">victor@portfolio</div>
+        <div class="line"><span>~/web $ construir_sitio</span><span class="ok">ok</span></div>
+        <div class="line"><span>diseño_a_medida</span><span class="ok">ok</span></div>
+        <div class="line"><span>panel_administrable</span><span class="ok">ok</span></div>
+        <div class="line"><span>despliegue</span><span class="path">pendiente</span></div>
+        <div class="line"><span>contacto</span><span class="path">vj.villar25@info.uas.edu.mx</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Servicios</span>
+        <h2>Lo que necesitas para construir una presencia digital sólida.</h2>
+        <p>Del diseño visual al despliegue final. Cada servicio pensado para encajar en un proyecto coherente y a tu medida.</p>
+      </div>
+      <div class="services">
+        <div class="service">
+          <span class="tag">Presencia</span>
+          <h3>Sitio web profesional</h3>
+          <p>Una web clara, rápida y responsive que presenta tu negocio con confianza desde el primer segundo.</p>
+          <div class="tags"><span>Diseño a medida</span><span>Estructura comercial</span></div>
+        </div>
+        <div class="service">
+          <span class="tag">Productos</span>
+          <h3>Catálogo digital</h3>
+          <p>Muestra tus productos o servicios con una experiencia ordenada, fácil de explorar y de cotizar.</p>
+          <div class="tags"><span>Categorías</span><span>Cotización rápida</span></div>
+        </div>
+        <div class="service">
+          <span class="tag">Operación</span>
+          <h3>Sistema administrable</h3>
+          <p>Paneles y flujos para gestionar contenido, usuarios o procesos sin depender de un desarrollador.</p>
+          <div class="tags"><span>Panel privado</span><span>Datos centralizados</span></div>
+        </div>
+        <div class="service">
+          <span class="tag">Lanzamiento</span>
+          <h3>Deploy y soporte</h3>
+          <p>Publicación en la nube, dominio y ajustes finales, con acompañamiento durante los primeros pasos.</p>
+          <div class="tags"><span>Cloud deploy</span><span>Acompañamiento</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section id="proyectos">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Proyecto destacado</span>
+        <h2>Una plataforma real, pensada para resolver una necesidad concreta.</h2>
+      </div>
+      <div class="project-card">
+        <div class="project-visual">
+          <svg viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="70" width="180" height="4" fill="#2A332D"/>
+            <circle cx="55" cy="70" r="16" stroke="#5FA98A" stroke-width="3"/>
+            <circle cx="145" cy="70" r="16" stroke="#5FA98A" stroke-width="3"/>
+            <path d="M35 70 L45 42 H135 L155 70" stroke="#C9A15A" stroke-width="3" fill="none" stroke-linejoin="round"/>
+            <rect x="60" y="46" width="26" height="16" stroke="#ECE8DE" stroke-width="2" fill="none"/>
+            <text x="100" y="112" fill="#93A199" font-size="10" font-family="Inter" text-anchor="middle">plataforma de subastas · en diseño</text>
+          </svg>
+        </div>
+        <div class="project-info">
+          <span class="status-pill">En diseño</span>
+          <h3>Plataforma de venta y subasta de autos en línea</h3>
+          <p>Diseño de una plataforma para publicar, comparar y ofertar por vehículos, con panel administrativo para gestionar inventario, pujas y usuarios.</p>
+          <div class="tags"><span>React</span><span>Django</span><span>PostgreSQL</span><span>Tailwind</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Stack tecnológico</span>
+        <h2>Herramientas modernas para construir software serio.</h2>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-item"><img src="https://cdn.simpleicons.org/react/5FA98A" alt="">React</div>
+        <div class="stack-item"><img src="https://cdn.simpleicons.org/django/5FA98A" alt="">Django</div>
+        <div class="stack-item"><img src="https://cdn.simpleicons.org/postgresql/5FA98A" alt="">PostgreSQL</div>
+        <div class="stack-item"><img src="https://cdn.simpleicons.org/tailwindcss/5FA98A" alt="">Tailwind</div>
+        <div class="stack-item"><img src="https://cdn.simpleicons.org/typescript/5FA98A" alt="">TypeScript</div>
+        <div class="stack-item"><img src="https://cdn.simpleicons.org/docker/5FA98A" alt="">Docker</div>
+        <div class="stack-item"><img src="https://cdn.simpleicons.org/github/5FA98A" alt="">GitHub</div>
+        <div class="stack-item"><img src="https://cdn.simpleicons.org/vercel/5FA98A" alt="">Vercel</div>
+        <div class="stack-item"><img src="https://cdn.simpleicons.org/render/5FA98A" alt="">Render</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section id="proceso">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Proceso de trabajo</span>
+        <h2>Un flujo claro, de la idea a la publicación final.</h2>
+        <p>Para que sepas siempre en qué etapa está tu proyecto.</p>
+      </div>
+      <div class="process">
+        <div class="process-step" data-n="1">
+          <h3>Análisis del proyecto</h3>
+          <p>Entendemos tu negocio, tus objetivos y los flujos de trabajo para definir el alcance correcto.</p>
+        </div>
+        <div class="process-step" data-n="2">
+          <h3>Diseño visual</h3>
+          <p>Definimos identidad, estructura y experiencia antes de escribir una sola línea de código.</p>
+        </div>
+        <div class="process-step" data-n="3">
+          <h3>Desarrollo frontend</h3>
+          <p>Construimos interfaces modernas y responsivas, con animaciones cuidadas y con propósito.</p>
+        </div>
+        <div class="process-step" data-n="4">
+          <h3>Backend y base de datos</h3>
+          <p>Modelamos los datos, creamos las APIs y configuramos servicios seguros y escalables.</p>
+        </div>
+        <div class="process-step" data-n="5">
+          <h3>Pruebas y optimización</h3>
+          <p>Validamos rendimiento, responsive y experiencia antes de que el proyecto salga a producción.</p>
+        </div>
+        <div class="process-step" data-n="6">
+          <h3>Publicación y soporte</h3>
+          <p>Desplegamos en la nube, configuramos el dominio y te acompañamos en los primeros pasos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section id="sobre-mi">
+    <div class="wrap about-grid">
+      <div>
+        <span class="about-badge">Víctor Villa — Desarrollador web</span>
+        <h2>Construyo soluciones web con criterio técnico y un enfoque real.</h2>
+        <p>Me enfoco en crear sitios y plataformas modernas, funcionales y administrables para negocios y profesionales que necesitan una presencia digital confiable.</p>
+        <p>Combino diseño cuidado, estructura clara y tecnologías actuales para entregar proyectos rápidos, responsivos y listos para crecer.</p>
+      </div>
+      <div class="about-stats">
+        <div><span class="label">Frontend</span><span class="value">React</span></div>
+        <div><span class="label">Backend</span><span class="value">Django</span></div>
+        <div><span class="label">Base de datos</span><span class="value">PostgreSQL</span></div>
+        <div><span class="label">Estilo</span><span class="value">Diseño a medida</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COTIZAR -->
+  <section id="cotizar">
+    <div class="wrap">
+      <div class="cta-head">
+        <span class="eyebrow">¿Tienes un proyecto en mente?</span>
+        <h2>Cuéntame qué necesitas y te respondo con una propuesta clara.</h2>
+        <p>Completa el formulario y se abrirá tu correo con todo listo para enviar.</p>
+      </div>
+      <form id="quote-form">
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" required>
+        </div>
+        <div class="field">
+          <label for="correo">Correo</label>
+          <input id="correo" name="correo" type="email" required>
+        </div>
+        <div class="field">
+          <label for="telefono">Teléfono / WhatsApp</label>
+          <input id="telefono" name="telefono" type="tel">
+        </div>
+        <div class="field">
+          <label for="tipo">Tipo de proyecto</label>
+          <select id="tipo" name="tipo">
+            <option>Sitio web profesional</option>
+            <option>Catálogo digital</option>
+            <option>Sistema administrable</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="presupuesto">Presupuesto estimado</label>
+          <input id="presupuesto" name="presupuesto" type="text" placeholder="Ej. $5,000 - $10,000 MXN">
+        </div>
+        <div class="field">
+          <label for="descripcion-vacia">&nbsp;</label>
+        </div>
+        <div class="field full">
+          <label for="descripcion">Cuéntame sobre tu proyecto</label>
+          <textarea id="descripcion" name="descripcion"></textarea>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+          <span class="form-note">Se abrirá un correo dirigido a vj.villar25@info.uas.edu.mx</span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="#top" class="brand">
+          <span class="brand-mark">VV</span>
+          <span class="brand-name">Víctor Villa</span>
+        </a>
+        <p class="about-text">Desarrollo web elegante. Construyo sitios, catálogos y sistemas administrables con arquitectura moderna.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#top">Inicio</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#proyectos">Proyectos</a></li>
+          <li><a href="#cotizar">Cotizar</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:vj.villar25@info.uas.edu.mx">vj.villar25@info.uas.edu.mx</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Víctor Villa. Todos los derechos reservados.</span>
+      <span>Diseñado y desarrollado con cuidado.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('quote-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const nombre = f.get('nombre') || '';
+    const correo = f.get('correo') || '';
+    const telefono = f.get('telefono') || '';
+    const tipo = f.get('tipo') || '';
+    const presupuesto = f.get('presupuesto') || '';
+    const descripcion = f.get('descripcion') || '';
+
+    const subject = `Cotización de proyecto — ${nombre}`;
+    const body =
+`Nombre: ${nombre}
+Correo: ${correo}
+Teléfono/WhatsApp: ${telefono}
+Tipo de proyecto: ${tipo}
+Presupuesto estimado: ${presupuesto}
+
+Descripción del proyecto:
+${descripcion}`;
+
+    window.location.href = `mailto:vj.villar25@info.uas.edu.mx?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+</script>
+
+</body>
+</html>
